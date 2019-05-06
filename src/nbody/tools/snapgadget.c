@@ -70,7 +70,7 @@ int main(int argc, string argv[])
 
 local void snapgadget(void)
 {
-  long int nbody;
+  int nbody;
   int *key_buf, *type_buf;
   real tsnap, *mass_buf, *pos_buf, *vel_buf, *phase_buf, *phi_buf, *aux_buf;
   int allocated_key = 0, allocated_type = 0, allocated_mass = 0, allocated_pos = 0, allocated_vel = 0, allocated_phase = 0, allocated_phi = 0, allocated_aux = 0;
@@ -83,40 +83,41 @@ local void snapgadget(void)
     else
       tsnap = 0.0;
     get_data(instr, NBodyTag, IntType, &nbody, 0);
+    printf("NPARTICLES: %i\n",nbody);
     get_tes(instr, ParametersTag);
     get_set(instr, ParticlesTag);
     if (scanopt(options, MassTag)) {	/* mass data to convert?    */
-      mass_buf = (real *) allocate_long((unsigned long int) nbody * (unsigned long int) sizeof(real));
+      mass_buf = (real *) allocate(nbody * sizeof(real));
       allocated_mass = 1;
       get_data(instr, MassTag, RealType, mass_buf, nbody, 0);
     }
     if (scanopt(options, PosTag)) {		/* position data?           */
-      pos_buf = (real *) allocate_long((unsigned long int) nbody * (unsigned long int) NDIM * (unsigned long int) sizeof(real));
+      pos_buf = (real *) allocate(nbody * NDIM * sizeof(real));
       allocated_pos = 1;
       get_data(instr, PosTag, RealType, pos_buf, nbody, NDIM, 0);
     }
     if (scanopt(options, VelTag)) {		/* velocity data?           */
-      vel_buf = (real *) allocate_long((unsigned long int) nbody * (unsigned long int) NDIM * (unsigned long int) sizeof(real));
+      vel_buf = (real *) allocate(nbody * NDIM * sizeof(real));
       allocated_vel = 1;
       get_data(instr, VelTag, RealType, vel_buf, nbody, NDIM, 0);
     }
     if (scanopt(options, PhaseTag)) {	/* phase-space data?        */
-      phase_buf = (real *) allocate_long((unsigned long int) nbody * (unsigned long int) 2 * (unsigned long int) NDIM * (unsigned long int) sizeof(real));
+      phase_buf = (real *) allocate(nbody * 2 * NDIM * sizeof(real));
       allocated_phase = 1;
       get_data(instr, PhaseTag, RealType, phase_buf, nbody, 2, NDIM, 0);
     }
     if (scanopt(options, PhiTag)) {		/* potential data?          */
-      phi_buf = (real *) allocate_long((unsigned long int) nbody * (unsigned long int) sizeof(real));
+      phi_buf = (real *) allocate(nbody * sizeof(real));
       allocated_phi = 1;
       get_data(instr, PhiTag, RealType, phi_buf, nbody, 0);
     }
     if (scanopt(options, AuxTag)) {		/* auxiliary data?          */
-      aux_buf = (real *) allocate_long((unsigned long int) nbody * (unsigned long int) sizeof(real));
+      aux_buf = (real *) allocate(nbody * sizeof(real));
       allocated_aux = 1;
       get_data(instr, AuxTag, RealType, aux_buf, nbody, 0);
     }
     if (scanopt(options, KeyTag)) {		/* key data?                */
-      key_buf = (int *) allocate_long((unsigned long int) nbody * (unsigned long int) sizeof(int));
+      key_buf = (int *) allocate(nbody * sizeof(int));
       allocated_key = 1;
       get_data(instr, KeyTag, IntType, key_buf, nbody, 0);
     }
@@ -126,7 +127,7 @@ local void snapgadget(void)
   
   //add a buffer for gadget type (here DM only)
   
-  type_buf = (int *) allocate_long((unsigned long int) nbody * (unsigned long int) sizeof(int));
+  type_buf = (int *) allocate(nbody * sizeof(int));
   allocated_type = 1;
   long int loop;
   for(loop = 0; loop < nbody; loop++)
@@ -136,7 +137,7 @@ local void snapgadget(void)
 
   if(allocated_key == 0)
     {
-      key_buf = (int *) allocate_long((unsigned long int) nbody * (unsigned long int) sizeof(int));
+      key_buf = (int *) allocate(nbody * sizeof(int));
       allocated_key = 1;
       for(loop = 0; loop < nbody; loop++)
 	key_buf[loop] = loop;
@@ -184,8 +185,6 @@ local void snapgadget(void)
       //header.npartTotalHighWord[n] = (unsigned int) (ntot_type_all[n] >> 32);
       header.npartTotalHighWord[n] = 0;
     }
-
-  printf("NPARTICLES: %i\n",nbody);
 
   for(n = 0; n < 6; n++)
     {
@@ -316,8 +315,8 @@ local void snapgadget(void)
 			  
 			  printf("allocate comm: %u\n", blockmaxlen);
 			  //THIS REGION SOMEWHAT BROKEN? ALWAYS BEEN A PAIN IN THE ASS. LOOKS LIKE IS CAPPED AT 100 000 000 PARTICLES FOR NOW.
-			  CommBuffer = (void*) allocate_long((unsigned long int) nbody * (unsigned long int) NDIM * (unsigned long int) sizeof(real));
-			  //CommBuffer = (void*) allocate_long((unsigned long int) blockmaxlen);
+			  CommBuffer = (void*) allocate(nbody * NDIM * sizeof(real));
+			  //CommBuffer = (void*) allocate(blockmaxlen);
 			  printf("all allocated!\n");
 			  
 			  printf("buffering\n");
