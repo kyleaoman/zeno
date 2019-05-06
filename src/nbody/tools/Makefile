@@ -4,10 +4,14 @@
 
 BINFILES = snapascii$X snapaux$X snapcenter$X snapcm$X snapcollect$X \
 	   snapcons$X snapforce$X snapkey$X snaplist$X \
-	    snaprect$X snapregister$X snaprotate$X snapset$X \
+	   snaprect$X snapregister$X snaprotate$X snapset$X \
 	   snapsift$X snapsort$X snapsplit$X snapstack$X snapstream$X \
 	   snaptipsy$X snaptrak$X snapturn$X testcode$X testcode_gsp$X \
-	   testcode_hmp$X testcode_zom$X testcode_mpi$X testcode_zom_mpi$X
+	   testcode_hmp$X testcode_zom$X testcode_mpi$X testcode_zom_mpi$X \
+	   snapgadget$X
+
+GADGETFLAGS = -DOUTPUTPOTENTIAL
+GADGETLDFLAGS =
 
 ##  Compilation options are selected by changing OPTIONS (and X); e.g.,
 ##	make binfiles OPTIONS="-DDOUBLEPREC" X=_dp
@@ -135,6 +139,13 @@ testcode_zom_mpi$X: testcode.c
 	mpicc $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) $(OPT) -DZOMGRAV -DMPICODE \
 	       -o testcode_zom_mpi$X testcode.c -lGSP -lNBody -lClib \
 	       -lgsl -lgslcblas -lm
+
+snapgadget$X: snapgadget.c allvars.c driftfac.c system.c allvars.h tags.h
+	mpicc $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) $(OPT) $(GADGETFLAGS) -c allvars.c
+	mpicc $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) $(OPT) $(GADGETFLAGS) -c driftfac.c
+	mpicc $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) $(OPT) $(GADGETFLAGS) -c system.c
+	mpicc $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) $(OPT) -c snapgadget.c
+	mpicc $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) $(OPT) $(GADGETLDFLAGS) $(GADGETFLAGS) -o snapgadget$X snapgadget.o allvars.o driftfac.o system.o -lClib -lgsl -lgslcblas -lm
 
 # Generate listing of source code.
 
