@@ -3,8 +3,8 @@
 ##  _________________________________________________________
 
 BINFILES = snapascii$X snapaux$X snapcenter$X snapcm$X snapcollect$X \
-	   snapcons$X snapfile$X snapforce$X snapkey$X snaplist$X \
-	   snapmake$X snaprect$X snapregister$X snaprotate$X snapset$X \
+	   snapcons$X snapforce$X snapkey$X snaplist$X \
+	    snaprect$X snapregister$X snaprotate$X snapset$X \
 	   snapsift$X snapsort$X snapsplit$X snapstack$X snapstream$X \
 	   snaptipsy$X snaptrak$X snapturn$X testcode$X testcode_gsp$X \
 	   testcode_hmp$X testcode_zom$X testcode_mpi$X testcode_zom_mpi$X
@@ -46,10 +46,6 @@ snapcons$X: snapcons.c
 	$(ZCC) $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) -o snapcons$X \
 	       snapcons.c -lNBody -lClib
 
-snapfile$X: snapfile.c
-	$(ZCC) $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) -o snapfile$X \
-	       snapfile.c -lNBody -lClib
-
 snapforce$X: snapforce.c
 	$(ZCC) $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) $(OPT) -o snapforce$X \
 	       snapforce.c -lNBody -lClib -lm
@@ -61,10 +57,6 @@ snapkey$X: snapkey.c
 snaplist$X: snaplist.c
 	$(ZCC) $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) -o snaplist$X \
 	       snaplist.c -lNBody -lClib
-
-snapmake$X: snapmake.c
-	$(ZCC) $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) -o snapmake$X \
-	       snapmake.c -lNBody -lClib -lgsl -lgslcblas -lm
 
 snaprect$X: snaprect.c
 	$(ZCC) $(ZCCFLAGS) $(ZLDFLAGS) $(OPTIONS) -o snaprect$X \
@@ -147,13 +139,13 @@ testcode_zom_mpi$X: testcode.c
 # Generate listing of source code.
 
 zeno_tools.ps: snapascii.c snapaux.c snapcenter.c snapcm.c snapcollect.c \
-	       snapcons.c snapfile.c snapforce.c snapkey.c snaplist.c \
-	       snapmake.c snaprect.c snapregister.c snaprotate.c snapset.c \
+	       snapcons.c snapforce.c snapkey.c snaplist.c \
+	       snaprect.c snapregister.c snaprotate.c snapset.c \
 	       snapsift.c snapsort.c snapsplit.c snapstack.c snapstream.c \
 	       snaptrak.c snapturn.c testcode.c
 	enscript -r2 -M Letterdj -o zeno_tools.ps \
 	       snapascii.c snapaux.c snapcenter.c snapcm.c snapcollect.c \
-	       snapcons.c snapfile.c snapforce.c snapkey.c snaplist.c \
-	       snapmake.c snaprect.c snapregister.c snaprotate.c snapset.c \
+	       snapcons.c snapforce.c snapkey.c snaplist.c \
+	       snaprect.c snapregister.c snaprotate.c snapset.c \
 	       snapsift.c snapsort.c snapsplit.c snapstack.c snapstream.c \
 	       snaptrak.c snapturn.c testcode.c
