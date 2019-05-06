@@ -1,6 +1,6 @@
 # ~/nbody/graphics/Makefile: mantain N-body graphics utilities.
 
-BINFILES = snapppm snapsmooth snapview viewfile
+BINFILES = snapppm snapsmooth viewfile
 
 # Location of X11 libraries.
 
