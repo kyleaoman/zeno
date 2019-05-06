@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export ZENOPATH="/astro/koman/code/zeno"
+export ZCC="gcc"
+export ZCCFLAGS="-std=gnu99 -DLINUX -I$ZENOPATH/inc"
+export ZLDFLAGS="-L$ZENOPATH/lib -lm"
+export ZENO_SAFE_SELECT="true"
+export ZENO_MSG_OPTION="all"
+
+make -f Zeno
