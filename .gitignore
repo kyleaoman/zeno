@@ -33,3 +33,7 @@
 # Zeno stuff
 .install_*
 
+# Post-build files
+bin/
+lib/
+inc/
